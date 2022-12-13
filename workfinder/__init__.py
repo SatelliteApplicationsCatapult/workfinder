@@ -54,34 +54,36 @@ logger.addHandler(console)
 
 
 def default_s3_api():
-    access = get_config("AWS", "access_key_id")
-    secret = get_config("AWS", "secret_access_key")
-    bucket_name = get_config("AWS", "bucket")
-    endpoint_url = get_config("AWS", "end_point")
-    s3_region = get_config("AWS", "region")
+    access = get_config("AWS", "ACCESS_KEY_ID")
+    secret = get_config("AWS", "SECRET_ACCESS_KEY")
+    bucket_name = get_config("S3", "BUCKET")
+    endpoint_url = get_config("S3", "ENDPOINT")
+    s3_region = get_config("AWS", "DEFAULT_REGION")
 
     return S3Api(access, secret, bucket_name, endpoint_url, s3_region)
 
 
 def default_nats_api():
-    nats_url = get_config("NATS", "url")
+    nats_host = get_config("NATS", "HOST")
+    nats_port = get_config("NATS", "PORT")
+    nats_url = f"nats://{nats_host}:{nats_port}"
     return NatsQueue(nats_url)
 
 
 def default_redis_api():
-    host = get_config("REDIS", "host")
-    port = get_config("REDIS", "port")
+    host = get_config("REDIS", "HOST")
+    port = get_config("REDIS", "PORT")
     return RedisQueue(host, port)
 
 
 def default_esa_api():
-    user = get_config("copernicus", "username")
-    pwd = get_config("copernicus", "pwd")
+    user = get_config("COPERNICUS", "USERNAME")
+    pwd = get_config("COPERNICUS", "PASSWORD")
     return SentinelAPI(user, pwd)
 
 
 def default_espa_api():
-    host = get_config("usgs", "host")
-    username = get_config("usgs", "username")
-    password = get_config("usgs", "password")
+    host = get_config("USGS", "API_ENDPOINT")
+    username = get_config("USGS", "USERNAME")
+    password = get_config("USGS", "PASSWORD")
     return EspaAPI(host, username, password)

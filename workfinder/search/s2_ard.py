@@ -13,4 +13,4 @@ class S2ARD(BaseArdWorkFinder):
         return "sentinel_2"
 
     def get_stac_key(self):
-        return get_config("s2_ard", "stac_collection_path")
+        return get_config("S2_ARD", "STAC_COLLECTION_PATH")

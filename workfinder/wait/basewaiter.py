@@ -4,14 +4,11 @@ import logging
 import sys
 
 from libcatapult.queues.base_queue import BaseQueue
-from libcatapult.queues.redis import RedisQueue
-
-from workfinder import get_config
 
 
 class BaseWaiter(object):
 
-    def __init__(self, q : BaseQueue):
+    def __init__(self, q: BaseQueue):
         self.q = q
 
     @abc.abstractmethod
@@ -27,20 +24,13 @@ class BaseWaiter(object):
         pass
 
     def process(self):
-
-        # read all the entries out of the redis queue into a list
         self.q.connect()
         queue_name = self.get_redis_source_queue()
-
         to_check = []
         while not self.q.empty(queue_name):
             item = self.q.receive(queue_name, timeout=600)
             to_check.append(item)
-
         logging.info(f"got {len(to_check)} entries to check on.")
-        # for each entry check the order
-        # if not ready put back in the redis queue
-        # if ready send to target
         errored = False
         for item in to_check:
             try:
@@ -56,6 +46,5 @@ class BaseWaiter(object):
                 logging.info(f"Could not process {item}, {e}, putting back in queue")
                 self.q.publish(queue_name, item)
                 errored = True
-
         if errored:
             sys.exit("there was an error")

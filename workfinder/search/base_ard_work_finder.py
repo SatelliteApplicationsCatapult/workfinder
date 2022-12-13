@@ -41,12 +41,17 @@ class BaseArdWorkFinder(BaseWorkFinder):
             path = '/'.join(r['url'].split('/')[0:-1]) + '/'
             logging.info(f"publishing {r['url']} as {path}")
             self.nats.publish(item_channel, path)
-        self.nats.close()
+
+        try:
+            self.nats.close()
+        except:
+            pass
 
     def find_work_list(self):
         self.s3.get_s3_connection()
-        region = get_config("app", "region")
-        return get_ard_list(self.s3, f"common_sensing/{region.lower()}/{self.get_sensor_name()}/")
+        region = get_config("APP", "REGION")
+        imagery_path = get_config("S3", "IMAGERY_PATH")
+        return get_ard_list(self.s3, f"{imagery_path}/{region.lower()}/{self.get_sensor_name()}/")
 
     def find_already_done_list(self):
         self.s3.get_s3_connection()

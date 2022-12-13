@@ -6,11 +6,17 @@ image:
 region: "fiji"
 
 nats:
-    url: "nats://nats.nats.svc.cluster.local:4222"
+    host: "nats-ips"
+    port: 4222
 
 redis:
     host: "redis-master.ard.svc.cluster.local"
     port: 6379
+
+app:
+    region: "fiji"
+    crs: "EPSG:32760"
+    tempDir: "/tmp"
 
 workfinder:
     batchSize: 100
@@ -45,9 +51,46 @@ s3:
     AccessKeyId: "something"
     SecretKeyId: "something"
     bucket: "public-eo-data"
+    endpoint: "https://s3.amazonaws.com"
+    imageryPath: "imagery"
+    stacPath: "stac"
 
 usgs:
     username: "something"
     password: "something"
 
+copernicus:
+    username: "something"
+    password: "something"
 
+s1:
+    redisProcessedChannel: "s1-processed"
+    ardStacCollectionPath: "s1-ard/stac"
+    ardStacCollectionPathMlwater: "s1-ard-mlwater/stac"
+
+s2:
+    redisProcessedChannel: "s2-processed"
+    ardStacCollectionPath: "s2-ard/stac"
+    ardStacCollectionPathMlwater: "s2-ard-mlwater/stac"
+    ardStacCollectionPathWofs: "s2-ard-wofs/stac"
+
+landsat8:
+    redisProcessedChannel: "landsat8-processed"
+    redisPendingChannel: "landsat8-pending"
+    ardStacCollectionPath8: "landsat8-ard/stac"
+    ardStacCollectionPath8Mlwater: "landsat8-ard-mlwater/stac"
+    ardStacCollectionPath8Wofs: "landsat8-ard-wofs/stac"
+
+landsat7:
+    ardStacCollectionPath7: "landsat7-ard/stac"
+    ardStacCollectionPath7Mlwater: "landsat7-ard-mlwater/stac"
+    ardStacCollectionPath7Wofs: "landsat7-ard-wofs/stac"
+
+landsat5:
+    ardStacCollectionPath5: "landsat5-ard/stac"
+    ardStacCollectionPath5Mlwater: "landsat5-ard-mlwater/stac"
+    ardStacCollectionPath5Wofs: "landsat5-ard-wofs/stac"
+
+mlWater:
+    redisProcessedChannel: "mlwater-processed"
+    wofsSummaryPath: "wofs-summary"

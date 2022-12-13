@@ -24,8 +24,14 @@ spec:
                             env:
                                 -   name: APP_REGION
                                     value: {{ $.Values.region | title }}
-                                -   name: AWS_BUCKET
+                                -   name: APP_CRS
+                                    value: {{ $.Values.app.crs | quote }}
+                                -   name: APP_TEMP_DIR
+                                    value: {{ $.Values.app.tempDir | quote }}
+                                -   name: S3_BUCKET
                                     value: {{ $.Values.s3.bucket | quote }}
+                                -   name: S3_ENDPOINT_URL
+                                    value: {{ $.Values.s3.endpoint | quote }}
                                 -   name: AWS_ACCESS_KEY_ID
                                     valueFrom:
                                         secretKeyRef:
@@ -46,12 +52,59 @@ spec:
                                         secretKeyRef:
                                             name: usgs-secrets
                                             key: password
-                                -   name: NATS_URL
-                                    value: {{ $.Values.nats.url | quote }}
+                                -   name: NATS_HOST
+                                    value: {{ $.Values.nats.host | quote }}
+                                -   name: NATS_PORT
+                                    value: {{ $.Values.nats.port | quote }}
                                 -   name: REDIS_HOST
                                     value: {{ $.Values.redis.host | quote }}
                                 -   name: REDIS_PORT
                                     value: {{ $.Values.redis.port | quote }}
+                                -   name: COPERNICUS_USERNAME
+                                    value: {{ $.Values.copernicus.username | quote }}
+                                -   name: COPERNICUS_PASSWORD
+                                    value: {{ $.Values.copernicus.password | quote }}
+                                -   name: S1_REDIS_PROCESSED_CHANNEL
+                                    value: {{ $.Values.s1.redisProcessedChannel | quote }}
+                                -   name: S1_ARD_STAC_COLLECTION_PATH
+                                    value: {{ $.Values.s1.ardStacCollectionPath | quote }}
+                                -   name: S1_ARD_STAC_COLLECTION_PATH_MLWATER
+                                    value: {{ $.Values.s1.ardStacCollectionPathMlwater | quote }}
+                                -   name: S2_REDIS_PROCESSED_CHANNEL
+                                    value: {{ $.Values.s2.redisProcessedChannel | quote }}
+                                -   name: S2_ARD_STAC_COLLECTION_PATH
+                                    value: {{ $.Values.s2.ardStacCollectionPath | quote }}
+                                -   name: S2_ARD_STAC_COLLECTION_PATH_MLWATER
+                                    value: {{ $.Values.s2.ardStacCollectionPathMlwater | quote }}
+                                -   name: S2_ARD_STAC_COLLECTION_PATH_WOFS
+                                    value: {{ $.Values.s2.ardStacCollectionPathWofs | quote }}
+                                -   name: LANDSAT8_REDIS_PROCESSED_CHANNEL
+                                    value: {{ $.Values.landsat8.redisProcessedChannel | quote }}
+                                -   name: LANDSAT8_REDIS_PENDING_CHANNEL
+                                    value: {{ $.Values.landsat8.redisPendingChannel | quote }}
+                                -   name: LANDSAT8_ARD_STAC_COLLECTION_PATH_8
+                                    value: {{ $.Values.landsat8.ardStacCollectionPath8 | quote }}
+                                -   name: LANDSAT8_ARD_STAC_COLLECTION_PATH_8_MLWATER
+                                    value: {{ $.Values.landsat8.ardStacCollectionPath8Mlwater | quote }}
+                                -   name: LANDSAT8_ARD_STAC_COLLECTION_PATH_8_WOFS
+                                    value: {{ $.Values.landsat8.ardStacCollectionPath8Wofs | quote }}
+                                -   name: LANDSAT7_ARD_STAC_COLLECTION_PATH_7
+                                    value: {{ $.Values.landsat7.ardStacCollectionPath7 | quote }}
+                                -   name: LANDSAT7_ARD_STAC_COLLECTION_PATH_7_MLWATER
+                                    value: {{ $.Values.landsat7.ardStacCollectionPath7Mlwater | quote }}
+                                -   name: LANDSAT7_ARD_STAC_COLLECTION_PATH_7_WOFS
+                                    value: {{ $.Values.landsat7.ardStacCollectionPath7Wofs | quote }}
+                                -   name: LANDSAT5_ARD_STAC_COLLECTION_PATH_5
+                                    value: {{ $.Values.landsat5.ardStacCollectionPath5 | quote }}
+                                -   name: LANDSAT5_ARD_STAC_COLLECTION_PATH_5_MLWATER
+                                    value: {{ $.Values.landsat5.ardStacCollectionPath5Mlwater | quote }}
+                                -   name: LANDSAT5_ARD_STAC_COLLECTION_PATH_5_WOFS
+                                    value: {{ $.Values.landsat5.ardStacCollectionPath5Wofs | quote }}
+                                -   name: ML_WATER_REDIS_PROCESSED_CHANNEL
+                                    value: {{ $.Values.mlwater.redisProcessedChannel | quote }}
+                                -   name: ML_WATTER_WOFS_SUMMARY_PATH
+                                    value: {{ $.Values.mlwater.wofsSummaryPath | quote }}
+
                     restartPolicy: Never
 
 {{- end }}

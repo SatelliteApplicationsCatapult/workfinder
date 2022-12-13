@@ -52,7 +52,7 @@ spec:
                                         secretKeyRef:
                                             name: esa-secrets
                                             key: username
-                                -   name: COPERNICUS_PWD
+                                -   name: COPERNICUS_PASSWORD
                                     valueFrom:
                                         secretKeyRef:
                                             name: esa-secrets

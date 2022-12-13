@@ -1,11 +1,11 @@
-
 from libcatapult.queues.nats import NatsQueue
+
 from workfinder import get_config
 from workfinder.api.s3 import S3Api
 from workfinder.search.base_ard_work_finder import BaseArdWorkFinder
 
 
-class Landsat8ARD (BaseArdWorkFinder):
+class Landsat8ARD(BaseArdWorkFinder):
 
     def __init__(self, s3: S3Api, nats: NatsQueue):
         super().__init__(s3, nats)
@@ -14,10 +14,12 @@ class Landsat8ARD (BaseArdWorkFinder):
         return "landsat_8"
 
     def get_stac_key(self):
-        return get_config("landsat_ard", "stac_collection_path_8")
+        stac_path = get_config("S3", "STAC_PATH")
+        collection_path = get_config("LANDSAT_ARD", "STAC_COLLECTION_PATH_8")
+        return f"{stac_path}/{collection_path}"
 
 
-class Landsat7ARD (BaseArdWorkFinder):
+class Landsat7ARD(BaseArdWorkFinder):
 
     def __init__(self, s3: S3Api, nats: NatsQueue):
         super().__init__(s3, nats)
@@ -26,10 +28,12 @@ class Landsat7ARD (BaseArdWorkFinder):
         return "landsat_7"
 
     def get_stac_key(self):
-        return get_config("landsat_ard", "stac_collection_path_7")
+        stac_path = get_config("S3", "STAC_PATH")
+        collection_path = get_config("LANDSAT_ARD", "STAC_COLLECTION_PATH_7")
+        return f"{stac_path}/{collection_path}"
 
 
-class Landsat5ARD (BaseArdWorkFinder):
+class Landsat5ARD(BaseArdWorkFinder):
 
     def __init__(self, s3: S3Api, nats: NatsQueue):
         super().__init__(s3, nats)
@@ -38,10 +42,12 @@ class Landsat5ARD (BaseArdWorkFinder):
         return "landsat_5"
 
     def get_stac_key(self):
-        return get_config("landsat_ard", "stac_collection_path_5")
+        stac_path = get_config("S3", "STAC_PATH")
+        collection_path = get_config("LANDSAT_ARD", "STAC_COLLECTION_PATH_5")
+        return f"{stac_path}/{collection_path}"
 
 
-class Landsat4ARD (BaseArdWorkFinder):
+class Landsat4ARD(BaseArdWorkFinder):
 
     def __init__(self, s3: S3Api, nats: NatsQueue):
         super().__init__(s3, nats)
@@ -50,5 +56,6 @@ class Landsat4ARD (BaseArdWorkFinder):
         return "landsat_4"
 
     def get_stac_key(self):
-        return get_config("landsat_ard", "stac_collection_path_4")
-
+        stac_path = get_config("S3", "STAC_PATH")
+        collection_path = get_config("LANDSAT_ARD", "STAC_COLLECTION_PATH_4")
+        return f"{stac_path}/{collection_path}"

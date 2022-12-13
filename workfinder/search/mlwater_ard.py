@@ -12,7 +12,9 @@ class Landsat8MlWaterArd(BaseArdWorkFinder):
         return "landsat_8_mlwater"
 
     def get_stac_key(self):
-        return get_config("landsat_ard", "stac_collection_path_8_mlwater")
+        stac_path = get_config("S3", "STAC_PATH")
+        collection_path = get_config("LANDSAT_ARD", "STAC_COLLECTION_PATH_8_MLWATER")
+        return f"{stac_path}/{collection_path}"
 
 
 class Landsat7MlWaterArd(BaseArdWorkFinder):
@@ -23,7 +25,9 @@ class Landsat7MlWaterArd(BaseArdWorkFinder):
         return "landsat_7_mlwater"
 
     def get_stac_key(self):
-        return get_config("landsat_ard", "stac_collection_path_7_mlwater")
+        stac_path = get_config("S3", "STAC_PATH")
+        collection_path = get_config("LANDSAT_ARD", "STAC_COLLECTION_PATH_7_MLWATER")
+        return f"{stac_path}/{collection_path}"
 
 
 class Landsat5MlWaterArd(BaseArdWorkFinder):
@@ -34,7 +38,9 @@ class Landsat5MlWaterArd(BaseArdWorkFinder):
         return "landsat_5_mlwater"
 
     def get_stac_key(self):
-        return get_config("landsat_ard", "stac_collection_path_5_mlwater")
+        stac_path = get_config("S3", "STAC_PATH")
+        collection_path = get_config("LANDSAT_ARD", "STAC_COLLECTION_PATH_5_MLWATER")
+        return f"{stac_path}/{collection_path}"
 
 
 class Sentinel2MlWaterArd(BaseArdWorkFinder):
@@ -45,7 +51,9 @@ class Sentinel2MlWaterArd(BaseArdWorkFinder):
         return "sentinel_2_mlwater"
 
     def get_stac_key(self):
-        return get_config("s2_ard", "stac_collection_path_mlwater")
+        stac_path = get_config("S3", "STAC_PATH")
+        collection_path = get_config("S2_ARD", "STAC_COLLECTION_PATH_MLWATER")
+        return f"{stac_path}/{collection_path}"
 
 
 class Sentinel1MlWaterArd(BaseArdWorkFinder):
@@ -56,4 +64,6 @@ class Sentinel1MlWaterArd(BaseArdWorkFinder):
         return "sentinel_1_mlwater"
 
     def get_stac_key(self):
-        return get_config("s1_ard", "stac_collection_path_mlwater")
+        stac_path = get_config("S3", "STAC_PATH")
+        collection_path = get_config("S1_ARD", "STAC_COLLECTION_PATH_MLWATER")
+        return f"{stac_path}/{collection_path}"

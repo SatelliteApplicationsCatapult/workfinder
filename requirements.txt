@@ -1,7 +1,6 @@
 sentinelsat==0.14
 pandas~=1.1.5
 libcatapult~=0.1.6
-
 setuptools~=56.2.0
 Shapely~=1.7.1
 numpy~=1.19.5
@@ -10,3 +9,4 @@ asyncio-nats-client==0.11.4
 pystac~=0.5.4
 requests
 click
+geopandas

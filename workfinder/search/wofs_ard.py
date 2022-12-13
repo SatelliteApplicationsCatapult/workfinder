@@ -12,7 +12,7 @@ class Landsat8WofsArd(BaseArdWorkFinder):
         return "landsat_8_wofs"
 
     def get_stac_key(self):
-        return get_config("landsat_ard", "stac_collection_path_8_wofs")
+        return get_config("LANDSAT_ARD", "STAC_COLLECTION_PATH_8_WOFS")
 
 
 class Landsat7WofsArd(BaseArdWorkFinder):
@@ -23,7 +23,7 @@ class Landsat7WofsArd(BaseArdWorkFinder):
         return "landsat_7_wofs"
 
     def get_stac_key(self):
-        return get_config("landsat_ard", "stac_collection_path_7_wofs")
+        return get_config("LANDSAT_ARD", "STAC_COLLECTION_PATH_7_WOFS")
 
 
 class Landsat5WofsArd(BaseArdWorkFinder):
@@ -34,7 +34,8 @@ class Landsat5WofsArd(BaseArdWorkFinder):
         return "landsat_5_wofs"
 
     def get_stac_key(self):
-        return get_config("landsat_ard", "stac_collection_path_5_wofs")
+        return get_config("LANDSAT_ARD", "STAC_COLLECTION_PATH_5_WOFS")
+
 
 class Sentinel2WofsArd(BaseArdWorkFinder):
     def __init__(self, s3: S3Api, nats: NatsQueue):
@@ -44,4 +45,4 @@ class Sentinel2WofsArd(BaseArdWorkFinder):
         return "sentinel_2_wofs"
 
     def get_stac_key(self):
-        return get_config("s2_ard", "stac_collection_path_wofs")
+        return get_config("S2_ARD", "STAC_COLLECTION_PATH_WOFS")

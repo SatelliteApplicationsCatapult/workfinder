@@ -1,11 +1,12 @@
 import json
+
 import geopandas as gpd
 import pandas as pd
 from libcatapult.queues.base_queue import BaseQueue
 from sentinelsat import SentinelAPI
 
 from workfinder import get_config, S3Api
-from workfinder.search import get_aoi_wkt, get_gpd_file, get_ard_list, get_aoi
+from workfinder.search import get_gpd_file, get_ard_list, get_aoi
 from workfinder.search.BaseWorkFinder import BaseWorkFinder
 
 
@@ -20,7 +21,7 @@ class S2(BaseWorkFinder):
     def find_work_list(self):
         self._s3.get_s3_connection()
 
-        region = get_config("app", "region")
+        region = get_config("APP", "REGION")
         aoi = get_aoi(self._s3, region)
         print(self._esa_api.dhus_version)
 
@@ -66,18 +67,20 @@ class S2(BaseWorkFinder):
         return df_result
 
     def find_already_done_list(self):
-        region = get_config("app", "region")
-        return get_ard_list(self._s3, f"common_sensing/{region.lower()}/sentinel_2/")
+        region = get_config("APP", "REGION")
+        imagery_path = get_config("S3", "IMAGERY_PATH")
+        return get_ard_list(self._s3, f"{imagery_path}/{region.lower()}/sentinel_2/")
 
     def submit_tasks(self, to_do_list: pd.DataFrame):
-        region = get_config("app", "region")
-        target_bucket = get_config("AWS", "bucket")
-        target_queue = get_config("s2", "redis_channel")
+        region = get_config("APP", "REGION")
+        target_bucket = get_config("S3", "BUCKET")
+        target_queue = get_config("S2", "REDIS_PROCESSED_CHANNEL")
+        imagery_path = get_config("S3", "IMAGERY_PATH")
         for r in to_do_list.tolist():
             payload = {
                 "in_scene": r['url'],
                 "s3_bucket": target_bucket,
-                "s3_dir": f"common_sensing/{region.lower()}/sentinel_2/"
+                "s3_dir": f"{imagery_path}/{region.lower()}/sentinel_2/"
             }
             self._redis.publish(target_queue, json.dumps(payload))
 

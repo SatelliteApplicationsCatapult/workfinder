@@ -1,24 +1,22 @@
 """Main module."""
-import asyncio
 import logging
-import sys
 
 import click
+import pandas
 
-from workfinder.search.Landsat import Landsat8
 from workfinder import default_s3_api, default_nats_api, default_redis_api, default_esa_api, \
     default_espa_api
-
+from workfinder.search.Landsat import Landsat8
 from workfinder.search.landsat_ard import Landsat8ARD, Landsat4ARD, Landsat5ARD, Landsat7ARD
 from workfinder.search.ml_water import Landsat8MLWater, Landsat7MLWater, Landsat5MLWater, S2MLWater, S1MLWater
 from workfinder.search.mlwater_ard import Landsat8MlWaterArd, Landsat7MlWaterArd, \
     Landsat5MlWaterArd, Sentinel1MlWaterArd, Sentinel2MlWaterArd
-from workfinder.search.s2 import S2
-from workfinder.search.wofs import Landsat8Wofs, Landsat7Wofs, Landsat5Wofs, Landsat4Wofs
-from workfinder.search.wofs_ard import Landsat8WofsArd, Landsat7WofsArd, Landsat5WofsArd, Sentinel2WofsArd
 from workfinder.search.s1 import S1
 from workfinder.search.s1_ard import S1ARD
+from workfinder.search.s2 import S2
 from workfinder.search.s2_ard import S2ARD
+from workfinder.search.wofs import Landsat8Wofs, Landsat7Wofs, Landsat5Wofs, Landsat4Wofs
+from workfinder.search.wofs_ard import Landsat8WofsArd, Landsat7WofsArd, Landsat5WofsArd, Sentinel2WofsArd
 
 # Mapping of processor names to objects.
 # Note: Names must be upper case.
@@ -58,19 +56,22 @@ processors = {
 @click.option('--limit', default=-1, help='Number records to process', )
 @click.argument("process")
 def main(process, limit):
-
     param = process.upper()
     if param in processors:
         logging.info(f"starting work search for {param}")
-        work = processors[param].find_new_work()
-        if 0 < limit < work.size:
-            processors[param].submit_tasks(work.sample(n=limit))
-        else:
-            processors[param].submit_tasks(work)
-
+        work: pandas.core.frame.DataFrame = processors[param].find_new_work()
+        if limit == -1:
+            limit = 5000
+        if limit > work.shape[0]:
+            limit = work.shape[0]
+        if limit > 5000:
+            limit = 5000
+        logging.info(f"Processing limit is set to {limit}")
+        reduced_pandas_frame = work.iloc[0:limit]
+        processors[param].submit_tasks(reduced_pandas_frame)
         logging.info(f"done work search for {param}")
     else:
-        print(f"unknown processor type {param}")
+        logging.error(f"unknown processor type {param}")
 
 
 if __name__ == '__main__':
